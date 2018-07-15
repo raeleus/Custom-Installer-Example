@@ -1,0 +1,111 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.6
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+project.ext.mainClassName = "com.ray3k.windowsinstaller.game.desktop.DesktopLauncher"
+project.ext.assetsDir = new File("../core/assets");
+
+task run(dependsOn: classes, type: JavaExec) {
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+}
+
+task debug(dependsOn: classes, type: JavaExec) {
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+    debug = true
+}
+
+task dist(type: Jar) {
+    archiveName = "game.jar"
+    from files(sourceSets.main.output.classesDir)
+    from files(sourceSets.main.output.resourcesDir)
+    from {configurations.compile.collect {zipTree(it)}}
+    from files(project.assetsDir);
+ 
+    manifest {
+        attributes ('Main-Class': project.mainClassName, 'SplashScreen-Image' : 'badlogic.jpg')
+    }
+}
+
+dist.dependsOn classes
+
+// creates application bundle (executable + runtime)
+task javaPackager(type: Exec, dependsOn: dist) {
+    workingDir project.projectDir
+    commandLine = [
+        'javapackager',
+        '-deploy',
+        '-nosign',
+        '-outdir', "${buildDir}/distribution",
+        '-srcdir', "${buildDir}/libs",
+        '-native', 'image',
+        '-name', project.appName,
+        '-appclass', project.mainClassName,
+        "-Bicon=${project.projectDir}/logo.ico",
+        "-BjvmOptions=-splash:splash.jpg"
+    ]
+}
+
+// removes bloated runtime created by javapackager
+task cleanPackagerRuntime(dependsOn: javaPackager) {
+    doLast() {
+        File runtimeFile = new File("${buildDir}/distribution/${project.appName}/runtime")
+        runtimeFile.deleteDir()
+        System.out.println("deleting bloated runtime in " + runtimeFile)
+    }
+}
+
+// creates a replacement runtime via jlink command (much smaller than jpackager)
+task createFinalAppBundle(type: Exec, dependsOn: [cleanPackagerRuntime]) {
+    def jdk = System.getProperty("java.home")
+
+    workingDir project.projectDir
+    commandLine = [
+        'jlink',
+        '-p', "${jdk}/jmods",
+        '--add-modules', 'java.base,java.desktop,jdk.unsupported',
+        '--strip-debug',
+        '--no-header-files',
+        '--no-man-pages',
+        '--strip-native-commands',
+        "--vm=server",
+        "--compress=2",
+        '--output', "${buildDir}/distribution/${project.appName}/runtime"
+    ]
+
+    doLast{
+        System.out.println("Application '${project.appName}' packaged.")
+        System.out.println(" -> location: ${buildDir}/distribution/${project.appName}/")
+    }
+}
+
+task updateDistribution(type: Copy, dependsOn: [dist]) {
+    from "${buildDir}/libs"
+    into "${buildDir}/distribution/${project.appName}/app"
+}
+
+eclipse {
+    project {
+        name = appName + "-desktop"
+        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/core/assets'
+    }
+}
+
+task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
+  doLast {
+    def classpath = new XmlParser().parse(file(".classpath"))
+    new Node(classpath, "classpathentry", [ kind: 'src', path: 'assets' ]);
+    def writer = new FileWriter(file(".classpath"))
+    def printer = new XmlNodePrinter(new PrintWriter(writer))
+    printer.setPreserveWhitespace(true)
+    printer.print(classpath)
+  }
+}

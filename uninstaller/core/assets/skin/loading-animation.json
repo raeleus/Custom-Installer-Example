@@ -1,0 +1,86 @@
+{
+"skeleton": { "hash": "kxhH0SoCw1lVQchhhPpd5oztC0g", "spine": "3.7.19-beta", "width": 656, "height": 656, "images": "../output/", "audio": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "sun", "parent": "root", "length": 139.72, "rotation": 0.41, "x": 320.7, "y": 150.36 }
+],
+"slots": [
+	{ "name": "bg", "bone": "root", "color": "482bbcff", "attachment": "bg" },
+	{ "name": "sun", "bone": "sun", "attachment": "sun" },
+	{ "name": "mountain1", "bone": "root", "color": "352496ff", "attachment": "mountain01" },
+	{ "name": "mountain01", "bone": "root", "color": "1e1e72ff", "attachment": "mountain01" },
+	{ "name": "mountain03", "bone": "root", "color": "6138baff", "attachment": "mountain03" },
+	{ "name": "mountain02", "bone": "root", "color": "0d0d5bff", "attachment": "mountain02" }
+],
+"skins": {
+	"default": {
+		"bg": {
+			"bg": { "x": 328, "y": 328, "scaleX": 6.56, "scaleY": 6.56, "width": 100, "height": 100 }
+		},
+		"mountain01": {
+			"mountain01": { "x": 415, "y": 202.96, "width": 320, "height": 320 }
+		},
+		"mountain02": {
+			"mountain02": { "x": 328, "y": 188, "width": 655, "height": 376 }
+		},
+		"mountain03": {
+			"mountain03": { "x": 288, "y": 231.5, "width": 576, "height": 463 }
+		},
+		"mountain1": {
+			"mountain01": { "x": 312, "y": 235.96, "width": 320, "height": 320 }
+		},
+		"sun": {
+			"sun": { "x": 7.33, "y": 3.94, "rotation": -0.41, "width": 303, "height": 303 }
+		}
+	}
+},
+"animations": {
+	"animation": {
+		"slots": {
+			"bg": {
+				"color": [
+					{ "time": 0, "color": "482bbcff" },
+					{ "time": 0.5, "color": "ffbf3eff" },
+					{ "time": 1, "color": "7cc6e0ff" }
+				]
+			},
+			"mountain01": {
+				"color": [
+					{ "time": 0, "color": "1e1e72ff" },
+					{ "time": 0.5, "color": "d38537ff" },
+					{ "time": 1, "color": "307ab7ff" }
+				]
+			},
+			"mountain1": {
+				"color": [
+					{ "time": 0, "color": "352496ff" },
+					{ "time": 0.5, "color": "ffa440ff" },
+					{ "time": 1, "color": "37baddff" }
+				]
+			},
+			"mountain02": {
+				"color": [
+					{ "time": 0, "color": "0d0d5bff" },
+					{ "time": 0.5, "color": "e26a3bff" },
+					{ "time": 1, "color": "264687ff" }
+				]
+			},
+			"mountain03": {
+				"color": [
+					{ "time": 0, "color": "6138baff" },
+					{ "time": 0.5, "color": "ffd140ff" },
+					{ "time": 1, "color": "7da3dbff" }
+				]
+			}
+		},
+		"bones": {
+			"sun": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 1, "x": 0, "y": 333.33 }
+				]
+			}
+		}
+	}
+}
+}

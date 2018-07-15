@@ -1,0 +1,331 @@
+
+installer-ui.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg
+  rotate: false
+  xy: 1941, 1941
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 579, 1629
+  size: 51, 34
+  split: 0, 0, 0, 0
+  pad: 2, 2, 2, 2
+  orig: 51, 34
+  offset: 0, 0
+  index: -1
+button-close
+  rotate: false
+  xy: 256, 259
+  size: 40, 41
+  orig: 40, 41
+  offset: 0, 0
+  index: -1
+button-close-over
+  rotate: false
+  xy: 1, 9
+  size: 40, 41
+  orig: 40, 41
+  offset: 0, 0
+  index: -1
+button-close-pressed
+  rotate: false
+  xy: 203, 211
+  size: 40, 41
+  orig: 40, 41
+  offset: 0, 0
+  index: -1
+button-info
+  rotate: false
+  xy: 1114, 1339
+  size: 170, 210
+  orig: 170, 210
+  offset: 0, 0
+  index: -1
+button-info-over
+  rotate: false
+  xy: 1286, 1415
+  size: 170, 210
+  orig: 170, 210
+  offset: 0, 0
+  index: -1
+button-info-pressed
+  rotate: false
+  xy: 1458, 1415
+  size: 170, 210
+  orig: 170, 210
+  offset: 0, 0
+  index: -1
+button-install
+  rotate: false
+  xy: 658, 1551
+  size: 290, 410
+  orig: 290, 410
+  offset: 0, 0
+  index: -1
+button-install-over
+  rotate: false
+  xy: 579, 1139
+  size: 290, 410
+  orig: 290, 410
+  offset: 0, 0
+  index: -1
+button-install-pressed
+  rotate: false
+  xy: 950, 1551
+  size: 290, 410
+  orig: 290, 410
+  offset: 0, 0
+  index: -1
+button-installing-close
+  rotate: false
+  xy: 1054, 1246
+  size: 30, 31
+  orig: 30, 31
+  offset: 0, 0
+  index: -1
+button-installing-close-over
+  rotate: false
+  xy: 566, 691
+  size: 30, 31
+  orig: 30, 31
+  offset: 0, 0
+  index: -1
+button-installing-close-pressed
+  rotate: false
+  xy: 741, 835
+  size: 30, 31
+  orig: 30, 31
+  offset: 0, 0
+  index: -1
+button-over
+  rotate: false
+  xy: 323, 620
+  size: 51, 34
+  split: 0, 0, 0, 0
+  pad: 2, 2, 2, 2
+  orig: 51, 34
+  offset: 0, 0
+  index: -1
+button-play
+  rotate: false
+  xy: 1242, 1730
+  size: 231, 311
+  orig: 231, 311
+  offset: 0, 0
+  index: -1
+button-play-over
+  rotate: false
+  xy: 1475, 1730
+  size: 231, 311
+  orig: 231, 311
+  offset: 0, 0
+  index: -1
+button-play-pressed
+  rotate: false
+  xy: 1708, 1730
+  size: 231, 311
+  orig: 231, 311
+  offset: 0, 0
+  index: -1
+button-pressed
+  rotate: false
+  xy: 1056, 2007
+  size: 51, 34
+  split: 0, 0, 0, 0
+  pad: 2, 2, 2, 2
+  orig: 51, 34
+  offset: 0, 0
+  index: -1
+button-quit
+  rotate: false
+  xy: 871, 1176
+  size: 181, 101
+  orig: 181, 101
+  offset: 0, 0
+  index: -1
+button-quit-over
+  rotate: false
+  xy: 1242, 1627
+  size: 181, 101
+  orig: 181, 101
+  offset: 0, 0
+  index: -1
+button-quit-pressed
+  rotate: false
+  xy: 1425, 1627
+  size: 181, 101
+  orig: 181, 101
+  offset: 0, 0
+  index: -1
+button-settings
+  rotate: false
+  xy: 1630, 1518
+  size: 161, 210
+  orig: 161, 210
+  offset: 0, 0
+  index: -1
+button-settings-over
+  rotate: false
+  xy: 1793, 1518
+  size: 161, 210
+  orig: 161, 210
+  offset: 0, 0
+  index: -1
+button-settings-pressed
+  rotate: false
+  xy: 817, 927
+  size: 161, 210
+  orig: 161, 210
+  offset: 0, 0
+  index: -1
+button-uninstall
+  rotate: false
+  xy: 871, 1279
+  size: 241, 270
+  orig: 241, 270
+  offset: 0, 0
+  index: -1
+button-uninstall-over
+  rotate: false
+  xy: 323, 656
+  size: 241, 270
+  orig: 241, 270
+  offset: 0, 0
+  index: -1
+button-uninstall-pressed
+  rotate: false
+  xy: 335, 928
+  size: 241, 270
+  orig: 241, 270
+  offset: 0, 0
+  index: -1
+check-box
+  rotate: false
+  xy: 1114, 1318
+  size: 23, 19
+  orig: 23, 19
+  offset: 0, 0
+  index: -1
+check-box-checked
+  rotate: false
+  xy: 1242, 1606
+  size: 23, 19
+  orig: 23, 19
+  offset: 0, 0
+  index: -1
+font-about export
+  rotate: false
+  xy: 1630, 1374
+  size: 142, 142
+  orig: 142, 142
+  offset: 0, 0
+  index: -1
+font-button export
+  rotate: false
+  xy: 658, 1963
+  size: 396, 78
+  orig: 396, 78
+  offset: 0, 0
+  index: -1
+font-complete export
+  rotate: false
+  xy: 578, 868
+  size: 237, 269
+  orig: 237, 269
+  offset: 0, 0
+  index: -1
+font-eula export
+  rotate: false
+  xy: 1, 254
+  size: 253, 46
+  orig: 253, 46
+  offset: 0, 0
+  index: -1
+font-path export
+  rotate: false
+  xy: 566, 724
+  size: 173, 142
+  orig: 173, 142
+  offset: 0, 0
+  index: -1
+font-title export
+  rotate: false
+  xy: 1, 929
+  size: 332, 269
+  orig: 332, 269
+  offset: 0, 0
+  index: -1
+mountain01
+  rotate: false
+  xy: 1, 607
+  size: 320, 320
+  orig: 320, 320
+  offset: 0, 0
+  index: -1
+mountain02
+  rotate: false
+  xy: 1, 1665
+  size: 655, 376
+  orig: 655, 376
+  offset: 0, 0
+  index: -1
+mountain03
+  rotate: false
+  xy: 1, 1200
+  size: 576, 463
+  orig: 576, 463
+  offset: 0, 0
+  index: -1
+progress-bar
+  rotate: false
+  xy: 306, 600
+  size: 1, 5
+  orig: 1, 5
+  offset: 0, 0
+  index: -1
+scroll-bar
+  rotate: false
+  xy: 1608, 1718
+  size: 18, 10
+  orig: 18, 10
+  offset: 0, 0
+  index: -1
+sun
+  rotate: false
+  xy: 1, 302
+  size: 303, 303
+  orig: 303, 303
+  offset: 0, 0
+  index: -1
+text-field
+  rotate: false
+  xy: 871, 1139
+  size: 157, 35
+  split: 0, 0, 0, 0
+  pad: 2, 2, 0, 0
+  orig: 157, 35
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 566, 925
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 1, 52
+  size: 200, 200
+  split: 17, 17, 17, 17
+  pad: 19, 19, 19, 19
+  orig: 200, 200
+  offset: 0, 0
+  index: -1

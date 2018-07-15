@@ -1,0 +1,215 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	about: {
+		file: font-about export.fnt
+	}
+	button: {
+		file: font-button export.fnt
+	}
+	complete: {
+		file: font-complete export.fnt
+	}
+	eula: {
+		file: font-eula export.fnt
+	}
+	path: {
+		file: font-path export.fnt
+	}
+	title: {
+		file: font-title export.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	black: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	dark-gray: {
+		r: 0.31666666
+		g: 0.31666666
+		b: 0.31666666
+		a: 1
+	}
+	gray: {
+		r: 0.88666666
+		g: 0.88666666
+		b: 0.88666666
+		a: 1
+	}
+	orange: {
+		r: 0.94509804
+		g: 0.3529412
+		b: 0.14117648
+		a: 1
+	}
+	progress-bar-bg: {
+		r: 1
+		g: 1
+		b: 1
+		a: 0
+	}
+	selection: {
+		r: 0.6329334
+		g: 0.8935648
+		b: 0.94000006
+		a: 1
+	}
+	stage-background: {
+		r: 0
+		g: 0
+		b: 0
+		a: 0.51
+	}
+	white: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+	progress-bar-bg: {
+		name: progress-bar
+		color: progress-bar-bg
+	}
+	black: {
+		name: white
+		color: black
+	}
+	selection: {
+		name: white
+		color: selection
+	}
+	bg-orange: {
+		name: bg
+		color: orange
+	}
+	stage-background: {
+		name: bg
+		color: stage-background
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: button
+		down: button-pressed
+		over: button-over
+	}
+	install: {
+		up: button-install
+		down: button-install-pressed
+		over: button-install-over
+	}
+	info: {
+		up: button-info
+		down: button-info-pressed
+		over: button-info-over
+	}
+	settings: {
+		up: button-settings
+		down: button-settings-pressed
+		over: button-settings-over
+	}
+	play: {
+		up: button-play
+		down: button-play-pressed
+		over: button-play-over
+	}
+	quit: {
+		up: button-quit
+		down: button-quit-pressed
+		over: button-quit-over
+	}
+	close: {
+		up: button-close
+		down: button-close-pressed
+		over: button-close-over
+	}
+	installing-close: {
+		up: button-installing-close
+		down: button-installing-close-pressed
+		over: button-installing-close-over
+	}
+	uninstall: {
+		up: button-uninstall
+		down: button-uninstall-pressed
+		over: button-uninstall-over
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	default: {
+		checkboxOn: check-box-checked
+		checkboxOff: check-box
+		font: button
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: title
+	}
+	about: {
+		font: about
+	}
+	button: {
+		font: button
+	}
+	complete: {
+		font: complete
+	}
+	eula: {
+		font: eula
+	}
+	path: {
+		font: path
+	}
+	title: {
+		font: title
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+	default-horizontal: {
+		background: progress-bar-bg
+		knobBefore: progress-bar
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+	default: {
+		background: bg-orange
+		vScrollKnob: scroll-bar
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: button
+		fontColor: white
+		downFontColor: dark-gray
+		overFontColor: gray
+		up: button
+		down: button-pressed
+		over: button-over
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: path
+		fontColor: white
+		background: text-field
+		cursor: black
+		selection: selection
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: window
+		titleFont: about
+		stageBackground: stage-background
+	}
+}
+}

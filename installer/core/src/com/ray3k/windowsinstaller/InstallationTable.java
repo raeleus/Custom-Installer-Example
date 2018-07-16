@@ -83,7 +83,8 @@ public class InstallationTable extends Table {
         
         table.pad(10.0f);
         
-        final Button button = new Button(skin, "installing-close");
+        Button button = new Button(skin, "installing-close");
+        button.setName("button");
         table.add(button).top().right().expand();
         button.addListener(new ChangeListener() {
             @Override
@@ -95,34 +96,40 @@ public class InstallationTable extends Table {
         });
         
         table.row();
-        final Label label = new Label("INSTALLATION COMPLETE", skin, "complete");
+        Label label = new Label("INSTALLATION COMPLETE", skin, "complete");
+        label.setName("label");
         label.setColor(1, 1, 1, 0);
         label.setAlignment(Align.center);
         label.setWrap(true);
         table.add(label).growX();
         
         table.row();
-        final ProgressBar progressBar = new ProgressBar(0, 1, .01f, false, skin) {
+        ProgressBar progressBar = new ProgressBar(0, 1, .01f, false, skin) {
             @Override
             public void act(float delta) {
                 super.act(delta);
                 graphic.setTimeScale(getVisualValue());
             }
         };
+        progressBar.setName("progress-bar");
         progressBar.setAnimateDuration(.1f);
         table.add(progressBar).growX();
         
-        
+        startInstallation();
+    }
+    
+    private void startInstallation() {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                final Label label = getStage().getRoot().findActor("label");
                 try {
                     final Array<FileHandle> installationFiles = new Array<FileHandle>();
                     final Array<FileHandle> runtimeFiles = new Array<FileHandle>();
                     final Array<File> deleteOnQuitFiles = new Array<File>();
-                    
+
                     totalBytes = 0;
-                    
+
                     CodeSource src = getClass().getProtectionDomain().getCodeSource();
                     URL jar = src.getLocation();
 
@@ -151,16 +158,16 @@ public class InstallationTable extends Table {
                     })) {
                         runtimeFiles.add(file);
                     }
-                    
+
                     runtimeFiles.addAll(findFilesRecursively(runtimeDirectory.child("runtime"), new Array<FileHandle>()));
-                    
+
                     Array<FileHandle> allFiles = new Array<FileHandle>(installationFiles);
                     allFiles.addAll(runtimeFiles);
-                    
+
                     for (FileHandle file : allFiles) {
                         totalBytes += file.length();
                     }
-                    
+
                     //read each file by byte and update the progress bar
                     byte[] byteValue = new byte[1024];
                     counter = 0;
@@ -174,11 +181,11 @@ public class InstallationTable extends Table {
                                 if (isChildOf(deleteFile.getParentFile(), Core.installationPath.file())) {
                                     deleteDirectoriesSet.add(deleteFile.getParent());
                                 }
-                                
+
                                 //delete the installed file
                                 deleteFile.delete();
                             }
-                            
+
                             //include all paths up to the installation path
                             for (String path : new ObjectSet<String>(deleteDirectoriesSet)) {
                                 FileHandle parent = Gdx.files.absolute(path);
@@ -188,7 +195,7 @@ public class InstallationTable extends Table {
                                     parent = parent.parent();
                                 }
                             }
-                            
+
                             //sort the directories so that inner most paths are deleted first
                             Array<String> deleteDirectories = new Array<String>();
                             for (String path : deleteDirectoriesSet) {
@@ -196,15 +203,15 @@ public class InstallationTable extends Table {
                             }
                             deleteDirectories.sort();
                             deleteDirectories.reverse();
-                            
+
                             //delete the directories
                             for (String path : deleteDirectories) {
                                 Gdx.files.absolute(path).delete();
                             }
-                            
+
                             break;
                         }
-                        
+
                         //read the source file from the jar or java runtime
                         InputStream inputStream = file.read();
                         final File targetFile;
@@ -225,53 +232,57 @@ public class InstallationTable extends Table {
                             Gdx.app.postRunnable(new Runnable() {
                                 @Override
                                 public void run() {
+                                    ProgressBar progressBar = getStage().getRoot().findActor("progress-bar");
                                     progressBar.setValue((float) counter / totalBytes);
                                 }
                             });
                             fileOutputStream.write(byteValue, 0, bytesRead);
 
                             //Sleep while the user pauses the installation
-                            while(pauseInstall) {
+                            while (pauseInstall) {
                                 Thread.sleep(200);
                             }
                         }
                         fileOutputStream.close();
                     }
-                    
+
                     //update the buttons
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
+                            Button button = getStage().getRoot().findActor("button");
                             button.setVisible(false);
                             button.setTouchable(Touchable.disabled);
                         }
                     });
-                    
+
                     //Create a desktop shortcut
                     if (Core.installationCreateDesktopIcon && continueInstall) {
-                        String desktopPath = WindowsRegistry.readRegistry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders", "Desktop");
+                        String desktopPath = WindowsRegistry.readRegistry(
+                                "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders", "Desktop");
                         desktopPath = desktopPath.replace("\\", "/");
                         ShellLink sl = ShellLink.createLink(Core.installationPath.path() + "/" + Core.properties.get("shortcut-target"));
                         File file = new File(desktopPath + "/" + Core.properties.get("product-name") + ".lnk");
                         sl.saveTo(file.getPath());
                         deleteOnQuitFiles.add(file);
                     }
-                    
+
                     //Create a start menu shortcut
                     if (Core.installationCreateStartIcon && continueInstall) {
-                        String startPath = WindowsRegistry.readRegistry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders", "Start Menu");
+                        String startPath = WindowsRegistry.readRegistry(
+                                "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders", "Start Menu");
                         startPath = startPath.replace("\\", "/");
                         ShellLink sl = ShellLink.createLink(Core.installationPath.path() + "/" + Core.properties.get("shortcut-target"));
                         File file = new File(startPath + "/" + Core.properties.get("product-name") + ".lnk");
                         sl.saveTo(file.getPath());
                         deleteOnQuitFiles.add(file);
                     }
-                    
+
                     //write uninstaller list file
                     if (continueInstall) {
                         FileHandle uninstallLog = Gdx.files.absolute(Core.installationPath.path() + "/uninstall");
                         deleteOnQuitFiles.add(uninstallLog.file());
-                        
+
                         String uninstallLines = "";
                         Iterator<File> iter = deleteOnQuitFiles.iterator();
                         while (iter.hasNext()) {
@@ -282,22 +293,48 @@ public class InstallationTable extends Table {
                                 uninstallLines += "\n";
                             }
                         }
-                        
+
                         uninstallLog.writeString(uninstallLines, false);
                     }
-                    
+
                     //write registry entries for uninstaller
-                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" + Core.properties.get("product-name").replace(' ', '_') + " /v DisplayName /t REG_SZ /d \"" + Core.properties.get("product-name") + "\"");
-                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"  + Core.properties.get("product-name").replace(' ', '_') + " /v UninstallString /t REG_SZ /d \"" + Core.installationPath.path().replace('/', '\\') + "\\" + Core.properties.get("installation-uninstall-path") + "\"");
-                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"  + Core.properties.get("product-name").replace(' ', '_') + " /v URLInfoAbout /t REG_SZ /d \"" + Core.properties.get("installation-url-about") + "\"");
-                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"  + Core.properties.get("product-name").replace(' ', '_') + " /v DisplayVersion /t REG_SZ /d \"" + Core.properties.get("installation-display-version") + "\"");
-                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"  + Core.properties.get("product-name").replace(' ', '_') + " /v DisplayIcon /t REG_SZ /d \"" + Core.installationPath.path().replace('/', '\\') + "\\" + Core.properties.get("installation-ico") + "\"");
-                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"  + Core.properties.get("product-name").replace(' ', '_') + " /v InstallLocation /t REG_SZ /d \"" + Core.installationPath.path().replace('/', '\\') + "\"");
-                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"  + Core.properties.get("product-name").replace(' ', '_') + " /v Publisher /t REG_SZ /d \"" + Core.properties.get("publisher") + "\"");
-                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"  + Core.properties.get("product-name").replace(' ', '_') + " /v NoModify /t REG_DWORD /d \"" + (Core.properties.get("installation-no-modify").equals("true") ? "1" : "0") + "\"");
-                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"  + Core.properties.get("product-name").replace(' ', '_') + " /v NoRepair /t REG_DWORD /d \"" + (Core.properties.get("installation-no-repair").equals("true") ? "1" : "0") + "\"");
-                    
-                    
+                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                            + Core.properties.get("product-name").replace(' ', '_')
+                            + " /v DisplayName /t REG_SZ /d \"" + Core.properties.get("product-name") + "\"");
+                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                            + Core.properties.get("product-name").replace(' ', '_')
+                            + " /v UninstallString /t REG_SZ /d \""
+                            + Core.installationPath.path().replace('/', '\\') + "\\"
+                            + Core.properties.get("installation-uninstall-path") + "\"");
+                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                            + Core.properties.get("product-name").replace(' ', '_')
+                            + " /v URLInfoAbout /t REG_SZ /d \"" + Core.properties.get("installation-url-about") + "\"");
+                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                            + Core.properties.get("product-name").replace(' ', '_')
+                            + " /v DisplayVersion /t REG_SZ /d \""
+                            + Core.properties.get("installation-display-version") + "\"");
+                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                            + Core.properties.get("product-name").replace(' ', '_')
+                            + " /v DisplayIcon /t REG_SZ /d \""
+                            + Core.installationPath.path().replace('/', '\\') + "\\"
+                            + Core.properties.get("installation-ico") + "\"");
+                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                            + Core.properties.get("product-name").replace(' ', '_')
+                            + " /v InstallLocation /t REG_SZ /d \""
+                            + Core.installationPath.path().replace('/', '\\') + "\"");
+                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                            + Core.properties.get("product-name").replace(' ', '_')
+                            + " /v Publisher /t REG_SZ /d \""
+                            + Core.properties.get("publisher") + "\"");
+                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                            + Core.properties.get("product-name").replace(' ', '_')
+                            + " /v NoModify /t REG_DWORD /d \""
+                            + (Core.properties.get("installation-no-modify").equals("true") ? "1" : "0") + "\"");
+                    Runtime.getRuntime().exec("cmd /c REG ADD HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                            + Core.properties.get("product-name").replace(' ', '_')
+                            + " /v NoRepair /t REG_DWORD /d \""
+                            + (Core.properties.get("installation-no-repair").equals("true") ? "1" : "0") + "\"");
+
                     //transition to complete screen
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
@@ -305,7 +342,7 @@ public class InstallationTable extends Table {
                             label.addAction(Actions.sequence(Actions.fadeIn(.5f), Actions.delay(2.0f), new Action() {
                                 @Override
                                 public boolean act(float delta) {
-                                    Core.transition(InstallationTable.this, new CompleteTable(skin, stage), 0.0f, .5f);
+                                    Core.transition(InstallationTable.this, new CompleteTable(getSkin(), getStage()), 0.0f, .5f);
                                     return true;
                                 }
                             }));
@@ -339,7 +376,7 @@ public class InstallationTable extends Table {
                 }
             }
         });
-        
+
         thread.start();
     }
     

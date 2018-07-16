@@ -79,5 +79,4 @@ public class InfoTable extends Table {
             }
         });
     }
-    
 }

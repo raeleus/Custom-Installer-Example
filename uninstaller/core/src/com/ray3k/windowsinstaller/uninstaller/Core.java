@@ -43,14 +43,12 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.PropertiesUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.awt.Desktop;
-import java.awt.SplashScreen;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.security.CodeSource;
-import javax.swing.JOptionPane;
 
 public class Core extends ApplicationAdapter {
     private Skin skin;
@@ -64,10 +62,7 @@ public class Core extends ApplicationAdapter {
     @Override
     public void create() {
         //close splash screen
-        SplashScreen splash = SplashScreen.getSplashScreen();
-        if (splash != null) {
-            splash.close();
-        }
+        desktopWorker.closeSplash();
         
         //read properties file
         properties = new ObjectMap<String, String>();
@@ -160,7 +155,8 @@ public class Core extends ApplicationAdapter {
 
             if (uninstallFile.exists()) {
                 //erase uninstaller registry values
-                Runtime.getRuntime().exec("cmd /c REG DELETE HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" + properties.get("product-name").replace(' ', '_') + " /f");
+                Runtime.getRuntime().exec("cmd /c REG DELETE HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                        + properties.get("product-name").replace(' ', '_') + " /f");
 
                 //gather all files to be uninstalled, leaving behind user files
                 String[] lines = uninstallFile.readString().split("\n");

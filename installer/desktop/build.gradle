@@ -86,10 +86,12 @@ task createFinalAppBundle(type: Exec, dependsOn: [cleanPackagerRuntime]) {
     }
 }
 
+// changes file permission of JavaPackager executable to read and write
 task filepermission(type: Exec) {
     commandLine 'attrib', '-R', "${buildDir}/distribution/${project.appName}/${project.appName}.exe"
 }
 
+// Use mt.exe to apply a manifest to the JavaPackager executable
 task applyUACmanifest(type: Exec, dependsOn: [createFinalAppBundle]) {
     doFirst {
         filepermission.execute();

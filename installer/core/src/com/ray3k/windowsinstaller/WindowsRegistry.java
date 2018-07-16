@@ -35,10 +35,6 @@ public class WindowsRegistry {
         }
 
     }
-    
-    public static void writeRegistry(String location, String key) {
-        
-    }
 
     static class StreamReader extends Thread {
         private InputStream is;

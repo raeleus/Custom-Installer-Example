@@ -4,16 +4,29 @@
   <auxiliary>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-            
+                        
+      
+      
       <group>
-                
+                                
+        
+        
         <file>file:/E:/workspace/Installer%20UI/project/installer/core/assets/values.properties</file>
-                
+                                
+        
+        
         <file>file:/E:/workspace/Installer%20UI/project/installer/core/src/com/ray3k/windowsinstaller/InstallationTable.java</file>
-              
+                              
+      
+      
       </group>
-          
+                      
+    
+    
     </open-files>
     <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+      <group/>
+    </open-files>
   </auxiliary>
 </gradle-project-properties>

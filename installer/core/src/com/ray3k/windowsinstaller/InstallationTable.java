@@ -83,8 +83,7 @@ public class InstallationTable extends Table {
         
         table.pad(10.0f);
         
-        Button button = new Button(skin, "installing-close");
-        button.setName("button");
+        final Button button = new Button(skin, "installing-close");
         table.add(button).top().right().expand();
         button.addListener(new ChangeListener() {
             @Override
@@ -96,15 +95,14 @@ public class InstallationTable extends Table {
         });
         
         table.row();
-        Label label = new Label("INSTALLATION COMPLETE", skin, "complete");
-        label.setName("label");
+        final Label label = new Label("INSTALLATION COMPLETE", skin, "complete");
         label.setColor(1, 1, 1, 0);
         label.setAlignment(Align.center);
         label.setWrap(true);
         table.add(label).growX();
         
         table.row();
-        ProgressBar progressBar = new ProgressBar(0, 1, .01f, false, skin) {
+        final ProgressBar progressBar = new ProgressBar(0, 1, .01f, false, skin) {
             @Override
             public void act(float delta) {
                 super.act(delta);
@@ -115,14 +113,9 @@ public class InstallationTable extends Table {
         progressBar.setAnimateDuration(.1f);
         table.add(progressBar).growX();
         
-        startInstallation();
-    }
-    
-    private void startInstallation() {
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                final Label label = getStage().getRoot().findActor("label");
                 try {
                     final Array<FileHandle> installationFiles = new Array<FileHandle>();
                     final Array<FileHandle> runtimeFiles = new Array<FileHandle>();
@@ -140,7 +133,7 @@ public class InstallationTable extends Table {
                             break;
                         }
                         final String name = e.getName();
-
+                        
                         if (name.matches("installation\\/.+")) {
                             FileHandle fileHandle = Gdx.files.internal(name);
                             installationFiles.add(fileHandle);
@@ -148,7 +141,8 @@ public class InstallationTable extends Table {
                             installationFiles.removeValue(fileHandle.parent(), false);
                         }
                     }
-
+                    
+                    //iterate through runtime directory files. Exclude directories and exe's
                     FileHandle runtimeDirectory = new FileHandle(Paths.get(jar.toURI()).toString()).parent().parent();
                     for (FileHandle file : runtimeDirectory.list(new FileFilter() {
                         @Override
@@ -158,7 +152,7 @@ public class InstallationTable extends Table {
                     })) {
                         runtimeFiles.add(file);
                     }
-
+                    
                     runtimeFiles.addAll(findFilesRecursively(runtimeDirectory.child("runtime"), new Array<FileHandle>()));
 
                     Array<FileHandle> allFiles = new Array<FileHandle>(installationFiles);
@@ -232,7 +226,6 @@ public class InstallationTable extends Table {
                             Gdx.app.postRunnable(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ProgressBar progressBar = getStage().getRoot().findActor("progress-bar");
                                     progressBar.setValue((float) counter / totalBytes);
                                 }
                             });
@@ -250,7 +243,6 @@ public class InstallationTable extends Table {
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
-                            Button button = getStage().getRoot().findActor("button");
                             button.setVisible(false);
                             button.setTouchable(Touchable.disabled);
                         }
@@ -334,7 +326,7 @@ public class InstallationTable extends Table {
                             + Core.properties.get("product-name").replace(' ', '_')
                             + " /v NoRepair /t REG_DWORD /d \""
                             + (Core.properties.get("installation-no-repair").equals("true") ? "1" : "0") + "\"");
-
+                    
                     //transition to complete screen
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
@@ -358,6 +350,7 @@ public class InstallationTable extends Table {
                         }
                     });
                 } catch (final InterruptedException e) {
+                    JOptionPane.showMessageDialog(null, "IO Exception " + e.getMessage());
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
@@ -366,6 +359,7 @@ public class InstallationTable extends Table {
                         }
                     });
                 } catch (final URISyntaxException e) {
+                    JOptionPane.showMessageDialog(null, "IO Exception " + e.getMessage());
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {

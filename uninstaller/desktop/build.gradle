@@ -49,7 +49,7 @@ task javaPackager(type: Exec, dependsOn: dist) {
         '-native', 'image',
         '-name', project.appName,
         '-appclass', project.mainClassName,
-        "-Bicon=${project.projectDir}/logo.ico",
+        "-Bicon=${project.projectDir}/uninstaller.ico",
         "-BjvmOptions=-splash:uninstaller-splash.png"
     ]
 }

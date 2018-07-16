@@ -48,8 +48,8 @@ task javaPackager(type: Exec, dependsOn: dist) {
         '-native', 'image',
         '-name', project.appName,
         '-appclass', project.mainClassName,
-        "-Bicon=${project.projectDir}/logo.ico",
-        "-BjvmOptions=-splash:splash.png"
+        "-Bicon=${project.projectDir}/installer.ico",
+        "-BjvmOptions=-splash:installer-splash.png"
     ]
 }
 
